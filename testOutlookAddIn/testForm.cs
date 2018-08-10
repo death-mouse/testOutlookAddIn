@@ -27,9 +27,6 @@ namespace testOutlookAddIn
         string analiticEmail;
         private BindingList<TaskCategory> taskCategoriesList= new BindingList<TaskCategory>();
         private BindingList<TaskBU> taskBUList = new BindingList<TaskBU>();
-        private void button1_Click(object sender, EventArgs e)
-        {
-        }
 
         /// <summary>
         /// Передача на форму текущего сообщения
@@ -58,10 +55,14 @@ namespace testOutlookAddIn
             foreach (Outlook.Recipient recipeint in mailItem.Recipients)
             {
                 Outlook.PropertyAccessor pa = recipeint.PropertyAccessor;
-                string smtpAddress =
-                    pa.GetProperty(PR_SMTP_ADDRESS).ToString();
+                string smtpAddress = pa.GetProperty(PR_SMTP_ADDRESS).ToString();
                 txtRecipient.Text += smtpAddress + ";";
             }
+            DateTime creationTime = mailItem.CreationTime;
+            txtDateTimeCreated.Text = creationTime.ToString(@"yyyy-MM-ddTHH:mm:ss");
+            Outlook.PropertyAccessor pa2 =  mailItem.Sender.PropertyAccessor;
+            string smtpAddressAuthor = pa2.GetProperty(PR_SMTP_ADDRESS).ToString();
+            txtAuthor.Text = smtpAddressAuthor;
         }
         /// <summary>
         /// Инициализация списокв БЕ и категорий
@@ -125,6 +126,9 @@ namespace testOutlookAddIn
 
         }
 
+        /// <summary>
+        /// Класс категорий для добавления в комбобокс
+        /// </summary>
         public class TaskCategory
         {
             public TaskCategory(string _categoryName, int _id)
@@ -134,7 +138,9 @@ namespace testOutlookAddIn
             public string categoryName{ get; set; }
             public int Id{ get; set; }
         }
-
+        /// <summary>
+        /// Класс БЕ для добавления в комбобокс
+        /// </summary>
         public class TaskBU
         {
             public TaskBU(string _buName, int _id)
@@ -143,6 +149,24 @@ namespace testOutlookAddIn
             }
             public string buName { get; set; }
             public int Id { get; set; }
+        }
+
+        private void btnSend_Click(object sender, EventArgs e)
+        {
+            string xmlDataSend = this.getXmlToSend();
+        }
+
+        public string getXmlToSend()
+        {
+            XDocument doc = new XDocument(new XElement("TaskRequest",
+                                                new XElement("Author", txtAuthor.Text),
+                                                new XElement("Analitic", analiticEmail),
+                                                new XElement("TaskDate", txtDateTimeCreated.Text),
+                                                new XElement("BUId", ((TaskBU)cmbBU.SelectedItem).Id),
+                                                new XElement("CategoryId", ((TaskCategory)cmbCategory.SelectedItem).Id),
+                                                new XElement("Subject", txtMailSybject.Text),
+                                                new XElement("Body", txtMailBody.Text)));
+            return doc.ToString();
         }
     }
 }

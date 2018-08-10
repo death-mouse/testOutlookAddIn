@@ -33,9 +33,9 @@ namespace testOutlookAddIn
         private void FormRegion1_FormRegionShowing(object sender, System.EventArgs e)
         {
             var isMailItem = (Microsoft.Office.Tools.Outlook.FormRegionControl)sender;
+            //Проверяем, что выбрали сообщение, и делаем его текущем для передачи на форму
             if ((isMailItem.OutlookItem is Outlook.MailItem))
             {
-                var test = isMailItem.OutlookItem as Outlook.MailItem;
                 mailItem = isMailItem.OutlookItem as Outlook.MailItem;
             }
         }
@@ -48,13 +48,11 @@ namespace testOutlookAddIn
 
         private void button1_Click(object sender, EventArgs e)
         {
-            //Office.IRibbonControl ctl = sender as Inspector;
             testForm testForm1 = new testForm();
-            testForm1.parmMessage(mailItem);
-            //MailItem item = sender as MailItem;
-            Outlook.Accounts accounts = (Outlook.Accounts)this.OutlookFormRegion.Session.Accounts;
-            testForm1.setAnaliticEmail(accounts[1].SmtpAddress);
-            testForm1.ShowDialog();
+            testForm1.parmMessage(mailItem); //Передаем текущее письмо в форму
+            Outlook.Accounts accounts = (Outlook.Accounts)this.OutlookFormRegion.Session.Accounts; //Получение текущего пользователя, под кем запущен OutLook
+            testForm1.setAnaliticEmail(accounts[1].SmtpAddress);//Передаем email в форму
+            testForm1.ShowDialog(this);//Отображаем как диалог
         }
     }
 }
