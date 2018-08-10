@@ -6,12 +6,12 @@ using System.Security;
 // Управление общими сведениями о сборке осуществляется с помощью 
 // набора атрибутов. Отредактируйте эти значения атрибутов, чтобы изменить сведения,
 // сопоставленные со сборкой.
-[assembly: AssemblyTitle("testOutlookAddIn")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Создание заявки")]
+[assembly: AssemblyDescription("Создание заявки в СД, по письму, которое выбрал пользователь")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("testOutlookAddIn")]
-[assembly: AssemblyCopyright("Copyright ©  2018")]
+[assembly: AssemblyCompany("Градиент")]
+[assembly: AssemblyProduct("Send Task on ServiceDesk")]
+[assembly: AssemblyCopyright("Copyright © DeAmouSE  2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -33,6 +33,6 @@ using System.Security;
 // Можно задать все значения или принять номера сборки и редакции по умолчанию 
 // с помощью знака '*', как показано ниже:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("0.0.1.*")]
+[assembly: AssemblyFileVersion("0.0.1.10")]
 

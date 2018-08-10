@@ -12,6 +12,7 @@ using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
+using testOutlookAddIn.Properties;
 using Outlook = Microsoft.Office.Interop.Outlook;
 
 namespace testOutlookAddIn
@@ -72,7 +73,12 @@ namespace testOutlookAddIn
         {
             try
             {
-                var url = "http://zskpk02:8280/services/sdapi/CategoryList";
+                var url = Settings.Default.CategoryListUrl;
+                if (url == "")
+                {
+                    MessageBox.Show("Не указана ссылка для получения списка категорий. Укажите ссылку в параметрах", "Ошибка в настройках", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                    return;
+                }
                 HttpWebRequest request =
                 (HttpWebRequest)WebRequest.Create(url);
 
@@ -95,7 +101,12 @@ namespace testOutlookAddIn
                 cmbCategory.DisplayMember = "categoryName";
                 cmbCategory.ValueMember = "Id";
 
-                url = "http://zskpk02:8280/services/sdapi/BUList";
+                url = Settings.Default.BUListUrl;
+                if (url == "")
+                {
+                    MessageBox.Show("Не указана ссылка для получения списка БЕ. Укажите ссылку в параметрах", "Ошибка в настройках", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                    return;
+                }
                 request = (HttpWebRequest)WebRequest.Create(url);
 
                 request.Method = "GET";
@@ -154,7 +165,12 @@ namespace testOutlookAddIn
         private void btnSend_Click(object sender, EventArgs e)
         {
             string xmlDataSend = this.getXmlToSend();
-            postXMLData("http://zskpk02:8280/sdapi/task", xmlDataSend);
+            if (Settings.Default.SendUrl == "")
+            {
+                MessageBox.Show("Не указана ссылка для отправки заявки. Укажите ссылку в параметрах", "Ошибка в настройках", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                return;
+            }
+            postXMLData(Settings.Default.SendUrl, xmlDataSend);
             this.Dispose();
         }
 

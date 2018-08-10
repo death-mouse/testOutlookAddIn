@@ -61,5 +61,14 @@ namespace testOutlookAddIn
 
 
         }
+
+        private void btnParameters_Click(object sender, EventArgs e)
+        {
+            Outlook.Application outlookApplication = this.OutlookFormRegion.Application;
+            ParametersForm parametersForm = new ParametersForm();
+            parametersForm.ShowDialog();
+            outlookApplication.ActiveExplorer().Activate();
+
+        }
     }
 }
