@@ -192,6 +192,7 @@
             this.Controls.Add(this.txtMailSybject);
             this.Controls.Add(this.btnSend);
             this.Name = "testForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Форма создания заявки в СД";
             this.Load += new System.EventHandler(this.testForm_Load);
             this.ResumeLayout(false);

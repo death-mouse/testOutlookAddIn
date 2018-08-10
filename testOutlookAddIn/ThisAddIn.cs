@@ -13,7 +13,6 @@ namespace testOutlookAddIn
         public Outlook.Explorer currentExplorer;
         private void ThisAddIn_Startup(object sender, System.EventArgs e)
         {
-
         }
 
     
@@ -23,7 +22,6 @@ namespace testOutlookAddIn
             // Примечание. Outlook больше не выдает это событие. Если имеется код, который 
             //    должно выполняться при завершении работы Outlook, см. статью на странице https://go.microsoft.com/fwlink/?LinkId=506785
         }
-
         #region Код, автоматически созданный VSTO
 
         /// <summary>

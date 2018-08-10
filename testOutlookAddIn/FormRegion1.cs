@@ -48,11 +48,18 @@ namespace testOutlookAddIn
 
         private void button1_Click(object sender, EventArgs e)
         {
+            Outlook.Application outlookApplication = this.OutlookFormRegion.Application; //На всякий случай получение приложения Outlook 
+            //OlWindowState outlookApplicationWindowState = outlookApplication.ActiveExplorer().WindowState; в каком положении находится окно
             testForm testForm1 = new testForm();
             testForm1.parmMessage(mailItem); //Передаем текущее письмо в форму
             Outlook.Accounts accounts = (Outlook.Accounts)this.OutlookFormRegion.Session.Accounts; //Получение текущего пользователя, под кем запущен OutLook
             testForm1.setAnaliticEmail(accounts[1].SmtpAddress);//Передаем email в форму
             testForm1.ShowDialog();//Отображаем как диалог
+
+            outlookApplication.ActiveExplorer().Activate(); //Возвращает фокус приложение, в противном случае, outlook уходит на задний план после закрытия формы testform1
+            //outlookApplication.ActiveExplorer().WindowState = outlookApplicationWindowState; //Вдруг когда то понадобится менять положения окна
+
+
         }
     }
 }

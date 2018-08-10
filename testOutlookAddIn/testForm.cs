@@ -155,7 +155,7 @@ namespace testOutlookAddIn
         {
             string xmlDataSend = this.getXmlToSend();
             postXMLData("http://zskpk02:8280/sdapi/task", xmlDataSend);
-            this.Close();
+            this.Dispose();
         }
 
         /// <summary>
