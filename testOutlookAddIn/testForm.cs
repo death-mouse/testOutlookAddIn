@@ -154,8 +154,14 @@ namespace testOutlookAddIn
         private void btnSend_Click(object sender, EventArgs e)
         {
             string xmlDataSend = this.getXmlToSend();
+            postXMLData("http://zskpk02:8280/sdapi/task", xmlDataSend);
+            this.Close();
         }
 
+        /// <summary>
+        /// Формирования xml для отправления его на сервере
+        /// </summary>
+        /// <returns>xml для отправки на сервер</returns>
         public string getXmlToSend()
         {
             XDocument doc = new XDocument(new XElement("TaskRequest",
@@ -167,6 +173,60 @@ namespace testOutlookAddIn
                                                 new XElement("Subject", txtMailSybject.Text),
                                                 new XElement("Body", txtMailBody.Text)));
             return doc.ToString();
+        }
+
+        /// <summary>
+        /// Отправка данных на веб сервис для создания заявки.
+        /// </summary>
+        /// <param name="destinationUrl">Ссылка на веб сервис</param>
+        /// <param name="requestXml">XML данные</param>
+        public void postXMLData(string destinationUrl, string requestXml)
+        {
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(destinationUrl);
+                byte[] bytes;
+                bytes = System.Text.Encoding.UTF8.GetBytes(requestXml);
+                request.ContentType = "text/xml; encoding='utf-8'";
+                request.ContentLength = bytes.Length;
+                request.Method = "POST";
+                request.UserAgent = "AddIns by DeAmouSE";
+                Stream requestStream = request.GetRequestStream();
+                requestStream.Write(bytes, 0, bytes.Length);
+                requestStream.Close();
+                HttpWebResponse response;
+                response = (HttpWebResponse)request.GetResponse();
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    Stream responseStream = response.GetResponseStream();
+                    string responseStr = new StreamReader(responseStream).ReadToEnd();
+                    XDocument xdoc = XDocument.Parse(responseStr);
+                    if (xdoc.Element("result").Element("error") != null)
+                    {
+                        string errorText = xdoc.Element("result").Element("error").Value;
+                        if (errorText != "")
+                        {
+                            MessageBox.Show(errorText, "Ошибка при создании заявки", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                            return;
+                        }
+                    }
+                    string taskId = xdoc.Element("result").Element("taskId").Value;
+                    if (taskId != "")
+                    {
+                        MessageBox.Show(string.Format("Создана заявка {0}. Ссылка на заявку скопирована в буфер обмена", taskId), "Заявка успешно создана", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                        Clipboard.SetText(string.Format("http://servicedesk.gradient.ru/Task/View/{0}", taskId));
+                    }
+                    else
+                    {
+                        MessageBox.Show("Странная ошибка, очень странная...", "Ошибка при создании заявки", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                    }
+                }
+            }
+            catch ( Exception e)
+            {
+                MessageBox.Show(e.Message, "Ошибка при создании заявки", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+            }
+
         }
     }
 }

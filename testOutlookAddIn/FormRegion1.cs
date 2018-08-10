@@ -52,7 +52,7 @@ namespace testOutlookAddIn
             testForm1.parmMessage(mailItem); //Передаем текущее письмо в форму
             Outlook.Accounts accounts = (Outlook.Accounts)this.OutlookFormRegion.Session.Accounts; //Получение текущего пользователя, под кем запущен OutLook
             testForm1.setAnaliticEmail(accounts[1].SmtpAddress);//Передаем email в форму
-            testForm1.ShowDialog(this);//Отображаем как диалог
+            testForm1.ShowDialog();//Отображаем как диалог
         }
     }
 }
