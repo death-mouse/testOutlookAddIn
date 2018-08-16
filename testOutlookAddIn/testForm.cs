@@ -60,7 +60,7 @@ namespace testOutlookAddIn
                 txtRecipient.Text += smtpAddress + ";";
             }
             DateTime creationTime = mailItem.CreationTime;
-            txtDateTimeCreated.Text = creationTime.ToString(@"yyyy-MM-ddTHH:mm:ss");
+            txtDateTimeCreated.Text = creationTime.ToString(@"dd.MM.yyy HH:mm:ss");
             Outlook.PropertyAccessor pa2 =  mailItem.Sender.PropertyAccessor;
             string smtpAddressAuthor = pa2.GetProperty(PR_SMTP_ADDRESS).ToString();
             txtAuthor.Text = smtpAddressAuthor;
@@ -214,7 +214,7 @@ namespace testOutlookAddIn
                 requestStream.Close();
                 HttpWebResponse response;
                 response = (HttpWebResponse)request.GetResponse();
-                if (response.StatusCode == HttpStatusCode.OK)
+                if (response.StatusCode == HttpStatusCode.OK || response.StatusCode == HttpStatusCode.Created)
                 {
                     Stream responseStream = response.GetResponseStream();
                     string responseStr = new StreamReader(responseStream).ReadToEnd();
