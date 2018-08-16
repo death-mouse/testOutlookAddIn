@@ -84,6 +84,7 @@ namespace testOutlookAddIn
 
                 request.Method = "GET";
                 request.UserAgent = "AddIns by DeAmouSE";
+                request.ContentType =  "application/xml";
                 HttpWebResponse response = (HttpWebResponse)request.GetResponse();
                 StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.UTF8);
                 StringBuilder output = new StringBuilder();
@@ -111,6 +112,7 @@ namespace testOutlookAddIn
 
                 request.Method = "GET";
                 request.UserAgent = "AddIns by DeAmouSE";
+                request.ContentType = "application/xml";
                 response = (HttpWebResponse)request.GetResponse();
                 reader = new StreamReader(response.GetResponseStream(), Encoding.UTF8);
                 output = new StringBuilder();
