@@ -6,10 +6,10 @@
       <Value Profile="(Default)">http://zskpk02:8280/sdapi/task</Value>
     </Setting>
     <Setting Name="CategoryListUrl" Type="System.String" Scope="User">
-      <Value Profile="(Default)">http://zskpk02:8280/services/sdapi/CategoryList</Value>
+      <Value Profile="(Default)">http://zskpk02:8280/sdapi/CategoryList</Value>
     </Setting>
     <Setting Name="BUListUrl" Type="System.String" Scope="User">
-      <Value Profile="(Default)">http://zskpk02:8280/services/sdapi/BUList</Value>
+      <Value Profile="(Default)">http://zskpk02:8280/sdapi/BUList</Value>
     </Setting>
   </Settings>
 </SettingsFile>

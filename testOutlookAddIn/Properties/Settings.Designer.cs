@@ -37,7 +37,7 @@ namespace testOutlookAddIn.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://zskpk02:8280/services/sdapi/CategoryList")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://zskpk02:8280/sdapi/CategoryList")]
         public string CategoryListUrl {
             get {
                 return ((string)(this["CategoryListUrl"]));
@@ -49,7 +49,7 @@ namespace testOutlookAddIn.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://zskpk02:8280/services/sdapi/BUList")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://zskpk02:8280/sdapi/BUList")]
         public string BUListUrl {
             get {
                 return ((string)(this["BUListUrl"]));
