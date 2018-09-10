@@ -65,7 +65,14 @@ namespace testOutlookAddIn
         private void btnParameters_Click(object sender, EventArgs e)
         {
             Outlook.Application outlookApplication = this.OutlookFormRegion.Application;
+            Outlook.Categories categories = outlookApplication.Session.Categories;
+            List<string> categoryList = new List<string>();
+            foreach (Outlook.Category category in categories)
+            {
+                categoryList.Add(category.Name);
+            }
             ParametersForm parametersForm = new ParametersForm();
+            parametersForm.parmListCategory(categoryList);
             parametersForm.ShowDialog();
             outlookApplication.ActiveExplorer().Activate();
 

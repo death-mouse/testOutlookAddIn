@@ -55,16 +55,44 @@ namespace testOutlookAddIn
             txtMailSybject.Text = mailItem.Subject;
             foreach (Outlook.Recipient recipeint in mailItem.Recipients)
             {
-                Outlook.PropertyAccessor pa = recipeint.PropertyAccessor;
-                string smtpAddress = pa.GetProperty(PR_SMTP_ADDRESS).ToString();
+
+                string smtpAddress = "";
+
+                if (recipeint.AddressEntry.AddressEntryUserType == Outlook.OlAddressEntryUserType.olExchangeUserAddressEntry
+                    || recipeint.AddressEntry.AddressEntryUserType == Outlook.OlAddressEntryUserType.olExchangeRemoteUserAddressEntry)
+                {
+                    Outlook.PropertyAccessor pa = recipeint.PropertyAccessor;
+                    smtpAddress = pa.GetProperty(PR_SMTP_ADDRESS).ToString();
+                }
+                else
+                    smtpAddress = recipeint.Address;
+
                 txtRecipient.Text += smtpAddress + ";";
             }
             DateTime creationTime = mailItem.CreationTime;
             txtDateTimeCreated.Text = creationTime.ToString(@"dd.MM.yyy HH:mm:ss");
-            Outlook.PropertyAccessor pa2 =  mailItem.Sender.PropertyAccessor;
-            string smtpAddressAuthor = pa2.GetProperty(PR_SMTP_ADDRESS).ToString();
+            //Outlook.PropertyAccessor pa2 =  mailItem.Sender.PropertyAccessor;
+            string smtpAddressAuthor = "";
+
+            if (mailItem.Sender.AddressEntryUserType ==
+               Outlook.OlAddressEntryUserType.olExchangeUserAddressEntry
+               || mailItem.Sender.AddressEntryUserType == Outlook.OlAddressEntryUserType.olExchangeRemoteUserAddressEntry)
+            {
+                Outlook.ExchangeUser exchUser =
+                    mailItem.Sender.GetExchangeUser();
+                if (exchUser != null)
+                {
+                    smtpAddressAuthor =  exchUser.PrimarySmtpAddress;
+                }
+               
+            }
+            else
+            {
+                smtpAddressAuthor = mailItem.Sender.Address;
+            }
             txtAuthor.Text = smtpAddressAuthor;
         }
+
         /// <summary>
         /// Инициализация списокв БЕ и категорий
         /// </summary>
@@ -189,7 +217,13 @@ namespace testOutlookAddIn
                                                 new XElement("BUId", ((TaskBU)cmbBU.SelectedItem).Id),
                                                 new XElement("CategoryId", ((TaskCategory)cmbCategory.SelectedItem).Id),
                                                 new XElement("Subject", txtMailSybject.Text),
-                                                new XElement("Body", txtMailBody.Text)));
+                                                new XElement("Body", txtMailBody.Text),
+#if (DEBUG)
+                                                new XElement("isTest", "true")
+#else
+                                                new XElement("isTest", "false")
+#endif
+                                                ));//Для тестов параметр
             return doc.ToString();
         }
 
@@ -233,6 +267,19 @@ namespace testOutlookAddIn
                     {
                         MessageBox.Show(string.Format("Создана заявка {0}. Ссылка на заявку скопирована в буфер обмена", taskId), "Заявка успешно создана", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
                         Clipboard.SetText(string.Format("http://servicedesk.gradient.ru/Task/View/{0}", taskId));
+                        if (Settings.Default.CategoryMail != "")
+                        {
+                            if (mailItem.Categories == null)
+                            {
+                                mailItem.Categories = Settings.Default.CategoryMail;
+                                mailItem.Save();
+                            }
+                            if (mailItem.Categories.Contains(Settings.Default.CategoryMail) == false)
+                            {
+                                mailItem.Categories += Settings.Default.CategoryMail;
+                                mailItem.Save();
+                            }
+                        }
                     }
                     else
                     {

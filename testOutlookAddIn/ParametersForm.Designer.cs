@@ -35,6 +35,8 @@
             this.label3 = new System.Windows.Forms.Label();
             this.txtCategoryListUrl = new System.Windows.Forms.TextBox();
             this.btnSave = new System.Windows.Forms.Button();
+            this.cmbCategoryName = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // txtSendUrl
@@ -87,7 +89,7 @@
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(339, 113);
+            this.btnSave.Location = new System.Drawing.Point(337, 128);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
             this.btnSave.TabIndex = 6;
@@ -95,11 +97,30 @@
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
+            // cmbCategoryName
+            // 
+            this.cmbCategoryName.FormattingEnabled = true;
+            this.cmbCategoryName.Location = new System.Drawing.Point(208, 91);
+            this.cmbCategoryName.Name = "cmbCategoryName";
+            this.cmbCategoryName.Size = new System.Drawing.Size(502, 21);
+            this.cmbCategoryName.TabIndex = 7;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(23, 94);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(168, 13);
+            this.label4.TabIndex = 8;
+            this.label4.Text = "Категория для пометки письма";
+            // 
             // ParametersForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 149);
+            this.ClientSize = new System.Drawing.Size(800, 163);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.cmbCategoryName);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.txtCategoryListUrl);
@@ -124,5 +145,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtCategoryListUrl;
         private System.Windows.Forms.Button btnSave;
+        private System.Windows.Forms.ComboBox cmbCategoryName;
+        private System.Windows.Forms.Label label4;
     }
 }
